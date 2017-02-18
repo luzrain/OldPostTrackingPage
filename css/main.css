@@ -1,0 +1,59 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, u, i,  dl, dt, dd, menu, fieldset, form, label, tbody, tfoot, thead, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, nav, section, summary, time, mark, audio, video, table, tr, td, th {
+	margin:0;
+	padding:0;
+	border:0;
+}
+
+html {
+	min-height: 100%;
+	position:relative;
+}
+
+body {
+	/*background: #d6d6d6 url(img/bg.png);*/
+	background: #f9f9f9;
+	padding:25px 10px;
+
+	font-family: verdana;
+	font-size: 13px;
+
+	
+}
+
+
+
+.titl {
+	color: #3d7b70;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 12px;
+	margin-bottom: 8px;
+}
+.titl a {
+	color: inherit;
+	text-decoration:none;
+}
+
+.trackn {
+	color: #003399;
+	font-weight: bold;
+}
+
+.errormessage {
+	color:red;
+	font-weight: bold;
+}
+
+#footer {
+	position: absolute;
+	bottom:10px;
+	left:0;
+	width:100%;
+}
+#footer div { 
+	width:92%;
+	border-top: 1px solid #808080;
+	color: #808080;
+	padding-top:3px;
+}
+

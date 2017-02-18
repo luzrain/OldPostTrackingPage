@@ -1,0 +1,43 @@
+
+#searchHistory {
+	position:absolute;
+	border: 1px solid #000;
+	text-align:left;
+	background: #fff;
+	box-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+	margin:0;
+}
+
+#searchHistory>span {
+	display:block;
+	font-size:11px;
+	text-align: center;
+	padding:2px;
+	cursor: pointer;
+	color:grey;
+}
+
+#searchHistory>ul {
+	margin:0;
+	padding:0;
+}
+
+#searchHistory>ul>li {
+	font-weight: normal;
+	padding: 0 0 1px 1px;
+	cursor: default;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+	list-style: none;
+}
+
+#searchHistory>ul>li:last-child {
+	padding-bottom: 0px;
+}
+
+#searchHistory>ul>li:hover, #searchHistory>span:hover {
+	color:#fff;
+	background: #039;
+
+}

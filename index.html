@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Отслеживание регистрируемых почтовых отправлений</title>
+	
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link href="css/table.css" rel="stylesheet" type="text/css">
+	<link href="css/history.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="js/track.js"></script>
+	<script type="text/javascript" src="js/history.js"></script>
+	
+	<!-- saved from url=(0014)about:internet -->
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="js/html5.js"></script>
+	<![endif]-->
+
+</head> 
+<body>
+<center>
+
+
+
+<div class="titl"><a href="/">Отслеживание регистрируемых почтовых отправлений</a></div>
+<table cellpadding="0" cellspacing="2" id="tracksearch">
+	<tr>
+		<th colspan="2">Поиск по почтовому идентификатору</th>
+	</tr>
+	<tr>
+		<td><input type="text" maxlength="14" id="input_track"></td>
+		<td>Введите почтовый идентификатор отправления, 14-символьный для внутрироссийских РПО или 13-символьный для международных РПО.</td>
+	</tr>
+	<tr>
+		<td colspan="2"><button id="search_button">Поиск</button> <button id="clear_button">Очистить</button></td>
+	</tr>
+</table>
+
+<div id="searchHistory" style="display:none;">
+<ul></ul>
+<span>Очистить историю</span>
+</div>
+
+
+
+
+
+<div style="margin-bottom:45px;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchProgress" style="display:none;"><div class="titl">Поиск...</div><img src="img/loader-horizontal.gif" alt="LOADER"></div>
+<div id="searchResult" style="display:none;" class="titl">Результат поиска</div>
+
+<div id="searchErr" class="errormessage" style="display:none;"></div>
+
+
+
+
+<table id="trackinfo" style="display:none;">
+	<tr>
+		<td><b id="trackinfo_tracktype"></b></td>
+		<td><span class="trackn" id="trackinfo_part1"></span></td>
+	</tr>
+	<tr>
+		<td><b>Принято к пересылке:</b></td>
+		<td id="trackinfo_part2"></td>
+	</tr>
+	<tr>
+		<td><b>Отправитель:</b></td>
+		<td id="trackinfo_part3"></td>
+	</tr>
+	<tr>
+	<td><b>Получатель:</b></td>
+		<td id="trackinfo_part4"></td>
+	</tr>
+</table>
+<div style="margin-bottom:8px;"></div>
+
+
+
+
+<table cellpadding="0" cellspacing="2" id="trackresult" style="display:none;">
+	<thead>
+		<tr>
+			<th rowspan="2">Операция</th>
+			<th rowspan="2">Дата</th>
+			<th colspan="2">Место проведения операции</th>
+			<th rowspan="2">Атрибут операции</th>
+			<th rowspan="2">Вес (кг.)</th>
+			<th rowspan="2">Объявл. ценность (руб.)</th>
+			<th rowspan="2">Налож. платёж (руб.)</th>
+			<th colspan="2">Адресовано</th>
+		</tr>
+		<tr>
+			<th>Индекс</th>
+			<th>Название ОПС</th>
+			<th>Индекс</th>
+			<th>Адрес</th>
+		</tr>
+	</thead>
+	<tbody id="trackresult_rows"></tbody>
+	<tr class="thunderline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="margin-bottom:60px;"></div>
+<div id="footer">
+	<div>&iquest; 2014</div>
+</div>
+
+
+</center>
+</body>
+</html>

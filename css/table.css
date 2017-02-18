@@ -1,0 +1,106 @@
+
+table * {
+	font-family: verdana;
+	font-size: 11px;
+}
+
+#tracksearch th, #trackresult th {
+	background: #003399;
+	color: #fff;
+	font-weight: bold;
+}
+
+#tracksearch th, #tracksearch td, #trackresult th, #trackresult td{
+	padding:2px 4px;
+	vertical-align: top;
+	text-align: center;
+}
+
+#tracksearch tr, #trackresult tr{
+	background: #f2f2f2;
+}
+
+#tracksearch {
+	width: 548px;
+}
+
+#tracksearch th {
+	text-align: left !important;
+}
+
+#tracksearch td {
+	text-align: justify;
+}
+
+#tracksearch input {
+	border: 1px solid #808080;
+	width: 180px;
+}
+
+#tracksearch button {
+	border: 1px solid #808080;
+	background: #f0f0f0;
+	color: #555;
+	font-weight: bold;
+}
+
+
+
+
+
+
+#trackinfo td {
+	text-align: left;
+	vertical-align: top;
+	padding: 2px;
+	font-size: 12px;
+}
+
+#trackinfo tr td:first-child {
+	text-align: right !important;
+}
+
+
+
+
+
+
+
+
+#trackresult {
+	width: 920px;
+}
+
+#trackresult th {
+	text-align: center;
+	vertical-align: middle;
+}
+
+#trackresult tr:nth-child(even) {
+	background: #ecebf0;
+}
+
+#trackresult tr:hover {
+	background: #f0f0de;
+}
+
+#trackresult .thunderline>td {
+	background: #003399;
+	height: 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
