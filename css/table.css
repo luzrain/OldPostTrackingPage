@@ -1,7 +1,15 @@
 
 table * {
 	font-family: verdana;
-	font-size: 11px;
+	font-size: 12px;
+}
+
+.center {
+	margin: 0 auto;
+}
+
+#tracksearch {
+	width: 548px;
 }
 
 #tracksearch th, #trackresult th {
@@ -20,9 +28,6 @@ table * {
 	background: #f2f2f2;
 }
 
-#tracksearch {
-	width: 548px;
-}
 
 #tracksearch th {
 	text-align: left !important;
@@ -47,20 +52,39 @@ table * {
 
 
 
-
-
-#trackinfo td {
+#trackinfo {
+	width: 950px;
 	text-align: left;
-	vertical-align: top;
-	padding: 2px;
-	font-size: 12px;
-}
-
-#trackinfo tr td:first-child {
-	text-align: right !important;
 }
 
 
+#trackdetail .d_1 {
+	text-align: right;
+	padding-right: 6px;
+}
+
+#trackdetail .d_2 {
+	text-align: left;
+	font-weight: bold;
+}
+
+
+
+
+#tracktitle {
+	color: #3d7b70;
+	font-size: 22px;
+	font-weight: bold;
+	font-family: sans-serif, Arial;
+}
+
+#trackstatus {
+	color: #666;
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: -2px;
+
+}
 
 
 
@@ -68,7 +92,7 @@ table * {
 
 
 #trackresult {
-	width: 920px;
+	width: 960px;
 }
 
 #trackresult th {
@@ -86,21 +110,49 @@ table * {
 
 #trackresult .thunderline>td {
 	background: #003399;
-	height: 4px;
+	height: 1px;
+}
+
+#trackresult_rows th {
+	padding: 40px;
+}
+
+
+#trackresult td {
+	padding: 4px;
+}
+
+
+.arrived {
+	display: inline-block;
+	width:16px;
+	height:12px;
+	margin-left: 10px;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAABGdBTUEAALGPC/xhBQAAAVFJREFUKBWdkT9Lw1AUxc99rUVc3P0zqZvYpOLmppl08ksoCiIqpTYVRdOiKIgoRepncBIKTQoW3Ft3P4SbW3u9NzWBtgrWOyT3vHd+9+S9EP5Rhbp9AcZGmzrrNCzvBpkrIhyGHPN7cpgBbt26lMQuLCADT3/+goJvl2DoKA7kzo3nvO0bnMLkffsgF6TteLOvKQSW1wMDtwqrzbjLdsUYuk4g8ZKrW0t9LCT5DGTceJ35zltt7kXayEEWVcjFjCdBfq6WCbWu5QPrRJKPtddi5nvPae12VfdJWd+eSBEaMmEuNIE/2txZScCsEdF5ZGZGueg0dyIdvcNLdJ/Tkxg1DQFmww3GJwhjkUmSH4pOa1u0XHxvxX9hYMi3T5IrkrwlcgBWSzxARba6MDWSSjZkcUa1wI8Cb2qr+qfqGaAGtzY/DZOqMvi15LT0zL/C6v8CE8dm4qtQX00AAAAASUVORK5CYII=);
 }
 
 
 
 
+.index_detail {
+	cursor: help;
+	border-bottom: 1px dashed #000080;
+}
 
 
+#trackadress {
+	z-index: 9999;
+	display: none;
+	position: absolute;
+	text-align: left;
+	padding: 4px;
+	background-color: #ffffe1;
+	font-size: 12px;
+	white-space: nowrap;
+	border: 1px solid #003399;
+
+	box-shadow: 0 0 10px rgba(0,51,153,0.6);
 
 
-
-
-
-
-
-
-
+}
 
