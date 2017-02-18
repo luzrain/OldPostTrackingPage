@@ -23,7 +23,8 @@ body {
 	
 }
 
-
+a { color: #808080; }
+a:hover { color: #003399; }
 
 .greentitle {
 	color: #3d7b70;
