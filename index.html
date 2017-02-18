@@ -1,126 +1,75 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<title>Отслеживание регистрируемых почтовых отправлений</title>
-	
 	<link href="css/main.css" rel="stylesheet" type="text/css">
-	<link href="css/table.css" rel="stylesheet" type="text/css">
-	<link href="css/history.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="js/track.js"></script>
-	<script type="text/javascript" src="js/history.js"></script>
-	
-	<!-- saved from url=(0014)about:internet -->
-	<!--[if lt IE 9]>
-	<script type="text/javascript" src="js/html5.js"></script>
-	<![endif]-->
-
+	<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="js/core.js"></script>
 </head> 
 <body>
-
+<!-- http://info.russianpost.ru/servlet/post_item -->
 <center>
-
-<div class="titl"><a href="/">Отслеживание регистрируемых почтовых отправлений</a></div>
-<table cellpadding="0" cellspacing="2" id="tracksearch">
-	<tr>
-		<th colspan="2">Поиск по почтовому идентификатору</th>
-	</tr>
-	<tr>
-		<td><input type="text" maxlength="14" id="input_track"></td>
-		<td>Введите почтовый идентификатор отправления, 14-символьный для внутрироссийских РПО или 13-символьный для международных РПО.</td>
-	</tr>
-	<tr>
-		<td colspan="2"><button id="search_button">Поиск</button> <button id="clear_button">Очистить</button></td>
-	</tr>
-</table>
-
-</div>
-
-<div id="searchHistory" style="display:none;">
-<ul></ul>
-<span>Очистить историю</span>
-</div>
-
-</center>
-
-
-
-<div style="margin-bottom:80px;"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<center>
-
-<div id="searchResult" style="display:none;" class="titl"></div>
-<div id="searchErr" class="errormessage" style="display:none;"></div>
-
-
-
-
-
-
-<div id="trackinfo" style="display:none;">
-	<div style="float:left;">
-		<span id="tracktitle"></span><span class="arrived" style="display:none;"></span><div id="trackstatus"></div>
+	<div class="greentitle"><a href="/">Отслеживание регистрируемых почтовых отправлений</a></div>
+	<table cellpadding="0" cellspacing="2" id="tracksearch">
+		<tr>
+			<th colspan="2">Поиск по почтовому идентификатору</th>
+		</tr>
+		<tr>
+			<td><input type="text" maxlength="14" id="input_track"></td>
+			<td>Введите почтовый идентификатор отправления, 14-символьный для внутрироссийских РПО или 13-символьный для международных РПО.</td>
+		</tr>
+		<tr>
+			<td colspan="2"><button id="search_button">Поиск</button> <button id="clear_button">Очистить</button></td>
+		</tr>
+	</table>
+	
+	<div id="ErrorMessageBox">
+		<div class="err_title greentitle"></div><div class="err_txt errortext"></div>
 	</div>
-	<div style="float:right;">
-		<table id="trackdetail">
-			<tr><td class="d_1">Трек номер: </td><td class="d_2 val1"></td></tr>
-			<tr><td class="d_1">Индекс получателя: </td><td class="d_2 val2"></td></tr>
-			<tr><td class="d_1">Отправитель: </td><td class="d_2 val3"></td></tr>
-			<tr><td class="d_1">Получатель: </td><td class="d_2 val4"></td></tr>
-			<tr><td class="d_1">Вес: </td><td class="d_2 val5"></td></tr>
-			<tr style="display:none;" class="d_ins"><td class="d_1">Объявленная ценность: </td><td class="d_2 val6"></td></tr>
-			<tr style="display:none;" class="d_cashon"><td class="d_1">Наложенный платеж: </td><td class="d_2 val7"></td></tr>
+	<noscript>
+		<div class="greentitle">Ошибка</div><div class="errortext">Включите JavaScript для работы.</div>
+	</noscript>
+		
+	<div id="result_print" style="display:none;">
+		<!-- Информация о посылке -->
+		<div id="trackinfo">
+			<div style="float:left;">
+				<div id="tracktitle"></div>
+				<div id="trackstatus"></div>
+			</div>
+			<div style="float:right;">
+				<div id="trackdetail"></div>	
+			</div>
+		</div>
+		<div style="margin-bottom:8px; clear:both;"></div>
+		<!-- Таблица с историей операций -->
+		<table cellpadding="0" cellspacing="2" id="trackresult">
+			<thead>
+				<tr>
+					<th rowspan="2">№</th>
+					<th rowspan="2">Операция</th>
+					<th rowspan="2">Дата</th>
+					<th colspan="3">Место проведения операции</th>
+					<th rowspan="2">Вес (кг.)</th>
+				</tr>
+				<tr>
+					<th>Индекс</th>
+					<th>Город</th>
+					<th>Название ОПС</th>
+				</tr>
+			</thead>
+			<tbody id="trackresult_rows"></tbody>
+			<tr class="thunderline">
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
 		</table>
 	</div>
-</div>
-<div style="clear: both"></div>
-<div style="margin-bottom:8px;"></div>
-<table cellpadding="0" cellspacing="2" id="trackresult" style="display:none;">
-	<thead>
-		<tr>
-			<th rowspan="2">№</th>
-			<th rowspan="2">Операция</th>
-			<th rowspan="2">Дата</th>
-			<th colspan="3">Место проведения операции</th>
-			<th rowspan="2">Вес (кг.)</th>
-		</tr>
-		<tr>
-			<th>Индекс</th>
-			<th>Город</th>
-			<th>Название ОПС</th>
-		</tr>
-	</thead>
-	<tbody id="trackresult_rows"></tbody>
-	<tr class="thunderline"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-</table>
-
-<div id="trackadress"></div>
-
-
-
-
-
-<div style="margin-bottom:60px;"></div>
-<div id="footer"><div>&iquest; 2014</div></div>
-
+	<div style="margin-top:60px;"></div>
+	<div id="footer">
+		<div>Информация об отправлениях получена с сайта почты России <span style="border-bottom:1px solid">https://www.pochta.ru/tracking</span></div>
+	</div>
 </center>
-
 
 </body>
 </html>
