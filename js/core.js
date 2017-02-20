@@ -141,12 +141,9 @@ function search() {
 //Поиск информации о почтовом отделении пои ндексу
 function SearchPostAdress(index) {
 	
-	$('#indexdetail').html('Загрузка...');
-
 	jqxhr = $.getJSON('php/getinfo.php?zipcode='+index);
 	
 	jqxhr.done(function(result) {
-		
 		if (result.LocalError) { //Локальная ошибка в .php
 			$('#indexdetail').html('<span style="color:#e84132;">Error: '+result.LocalError+'</span>');
 		}else if (result.office) {
@@ -163,6 +160,12 @@ function SearchPostAdress(index) {
 	jqxhr.fail(function() {
 		$('#indexdetail').html('<span style="color:#e84132;">Error: Request failed</span>');
 	});
+	
+	jqxhr.always(function() {
+		$('.index-'+index).data('loading', false);
+	});
+	
+	
 }
 
 
@@ -187,8 +190,12 @@ $(function() {
 		//Если у индекса уже сохранен адрес, выводим его
 		if ( $(this).data('adress') ) {
 			$('#indexdetail').html( $(this).data('adress') );
-		} else { //Иначе подгружаем
-			SearchPostAdress(index);
+		} else { //Иначе подгружаем (если адрес уже не загружается)
+			$('#indexdetail').html('Загрузка...');
+			if ( !$(this).data('loading') ) {
+				$('.index-'+index).data('loading', true);
+				SearchPostAdress(index);
+			}
 		}
 
 		//Чтобы всплывающая информация об отделении не выходила за экран
