@@ -144,6 +144,7 @@ table * {
 	border: 1px solid #808080;
 	width: 180px;
 	padding: 1px 2px;
+	background-color: #fff;
 }
 
 #tracksearch input:focus, #tracksearch button:focus {
@@ -158,8 +159,21 @@ table * {
 	cursor: pointer;
 }
 
+#mem_count {
+	position: absolute;
+	right: 3px;
+	top: 2px;
+	cursor: help;
+	/*opacity: 0.5;*/
+	color:#aaa;
+	background-color: #fff;
+}
+#mem_count:before {content:"["}
+#mem_count:after {content:"]"}
 
-
+#input_wrapper {
+	position:relative;
+}
 
 #trackinfo {
 	width: 950px;
@@ -289,12 +303,24 @@ table * {
 }
 
 #searchHistory>span {
-	display:block;
-	font-size:11px;
+	display: block;
+	font-size: 11px;
 	text-align: center;
-	padding:2px;
+	padding: 2px;
 	cursor: pointer;
-	color:grey;
+	color: grey;
+}
+
+#searchHistory .nothing {
+	display: block;
+	font-size: 10px;
+	text-align: center;
+	padding-top: 2px;
+	color: #000;
+	cursor: default;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
 }
 
 #searchHistory>ul {
@@ -311,6 +337,8 @@ table * {
 	user-select: none;
 	list-style: none;
 }
+
+
 
 #searchHistory>ul>li:last-child {
 	padding-bottom: 0px;

@@ -3,6 +3,11 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-cache');
 
+//Если запрос пришел не с текущего имени сервера, выход.
+if( @parse_url($_SERVER['HTTP_REFERER'])['host'] != $_SERVER['SERVER_NAME'] ) {
+	exit('{"LocalError":"Not Allowed"}');
+}
+
 //Функция для http get запроса
 function GetData($url, $data, $headers) {
 	$curl = curl_init();
@@ -23,8 +28,8 @@ function GetData($url, $data, $headers) {
 	);
 	curl_close($curl);
 	
-	//Обработка ошибки curl
-	if($answer['result'] === false){
+	//Если curl вернул ошибку
+	if($answer['result'] === false) {
 		exit('{"LocalError":"'.addslashes($answer['error']).'"}');
 	}
 	
@@ -45,10 +50,11 @@ if (isset($_GET['zipcode']) && !empty($_GET['zipcode'])) {
 		'postalCode' => (int)$_GET['zipcode'],
 	);
 	$headers = array(
-		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0',
+		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
 		'Accept: application/json',
 		'X-Requested-With: XMLHttpReques',
 		'Referer: https://www.pochta.ru/offices',
+		'Cookie: PORTAL_LANGUAGE=ru_RU',
 		'Connection: close',
 	);
 	exit( GetData($url, $data, $headers) );
@@ -70,16 +76,17 @@ if (isset($_GET['zipcode']) && !empty($_GET['zipcode'])) {
 		'barcodeList' => $_GET['barcode'],
 	);
 	$headers = array(
-		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0',
+		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
 		'Accept: application/json',
 		'X-Requested-With: XMLHttpReques',
 		'Referer: https://www.pochta.ru/tracking',
+		'Cookie: PORTAL_LANGUAGE=ru_RU',
 		'Connection: close',
 	);
 	exit( GetData($url, $data, $headers) );
 	
 } else {
-	exit('{"LocalError":"No parameters"}');
+	exit('{"LocalError":"Not Allowed"}');
 }
 
 

@@ -3,12 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>Отслеживание регистрируемых почтовых отправлений</title>
-	<link href="css/main.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-	<script type="text/javascript" src="js/core.js"></script>
+	<link href="style.css" rel="stylesheet" type="text/css">
+	<link rel="icon" type="image/png" href="icon.png">
+	<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="core.js"></script>
 </head> 
 <body>
 <!-- http://info.russianpost.ru/servlet/post_item -->
+
 <center>
 	<div class="greentitle"><a href="/">Отслеживание регистрируемых почтовых отправлений</a></div>
 	<table cellpadding="0" cellspacing="2" id="tracksearch">
@@ -16,7 +18,7 @@
 			<th colspan="2">Поиск по почтовому идентификатору</th>
 		</tr>
 		<tr>
-			<td><input type="text" maxlength="14" id="input_track"></td>
+			<td><div id="input_wrapper"><input type="text" maxlength="14" id="input_track"><div id="mem_count">0</div></div></td>
 			<td>Введите почтовый идентификатор отправления, 14-символьный для внутрироссийских РПО или 13-символьный для международных РПО.</td>
 		</tr>
 		<tr>
@@ -28,7 +30,7 @@
 		<div class="err_title greentitle"></div><div class="err_txt errortext"></div>
 	</div>
 	<noscript>
-		<div class="greentitle">Ошибка</div><div class="errortext">Включите JavaScript для работы.</div>
+		<div class="greentitle">Ошибка</div><div class="errortext">Включите JavaScript для работы сайта.</div>
 	</noscript>
 		
 	<div id="result_print" style="display:none;">
@@ -68,8 +70,11 @@
 	<div style="margin-top:60px;"></div>
 	<div id="footer">
 		<div>
-			Информация об отправлениях получена с сайта почты России <span style="border-bottom:1px solid">https://www.pochta.ru/tracking</span><br>
-			<a href="https://github.com/LuzRain/OldPostTrackingPage" target="_blank">Проект на GitHub</a>
+			Информация об отправлениях получена с сайта почты России <a rel="noreferrer" target="_blank" href="https://www.pochta.ru/tracking">https://www.pochta.ru/tracking</a><br>
+			<a target="_blank" href="https://github.com/LuzRain/OldPostTrackingPage">GitHub</a> |
+			<a href="https://russianpost.ml">https://russianpost.ml</a> |
+			<a href="http://trackingzbyabamr.onion">http://trackingzbyabamr.onion</a>
+			
 		</div>
 	</div>
 </center>

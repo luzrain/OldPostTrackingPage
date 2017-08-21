@@ -108,13 +108,13 @@ function search() {
 
     addHistoryElement(track); //Добавляем трек в историю
 
-	jqxhr = $.getJSON('php/getinfo.php?barcode='+track);
+	jqxhr = $.getJSON('getinfo.php?barcode='+track);
 	
 	jqxhr.done(function(result) {
 
 		//Обработка ошибок в ответе .php
 		if (result.LocalError) { //Локальная ошибка в .php
-			ShowMessage('Ошибка', result.LocalError);
+			ShowMessage('Ошибка в ответе скрипта', result.LocalError);
 			return false;
 		} else if (result.error) { //Если получена ошибка от сервера почты
 			ShowMessage('Ошибка в ответе сервера почты', result.error.description);
@@ -132,7 +132,7 @@ function search() {
 	});
 	
 	jqxhr.fail(function() {
-		ShowMessage('Ошибка', 'Request failed');
+		ShowMessage('Ошибка при отправке запроса', 'Не удалось выполнить запрос.');
 	});
 
 }
@@ -141,7 +141,7 @@ function search() {
 //Поиск информации о почтовом отделении пои ндексу
 function SearchPostAdress(index) {
 	
-	jqxhr = $.getJSON('php/getinfo.php?zipcode='+index);
+	jqxhr = $.getJSON('getinfo.php?zipcode='+index);
 	
 	jqxhr.done(function(result) {
 		if (result.LocalError) { //Локальная ошибка в .php
@@ -181,8 +181,11 @@ $(function() {
 	$("#input_track").on('input', function() {
 		$("#input_track").removeClass('inputerror');
 	});
-
-
+	
+	
+	$('#mem_count').attr('title', 'Количество сохраненных трек номеров.\nДля вызова истории сделайте двойной клик\nпо полю ввода или нажмите кнопку "вниз".');
+	$('#mem_count').html(readHistory().length); //Обновление счетчика сохраненных треков
+	
 	//Наведение мышкой на индекс (для отображения адреса отделения)
 	$('body').on('mouseenter', '.index_detail', function(e){
 		index = $(this).html();
@@ -225,8 +228,6 @@ $(function() {
 	});
 
 	
-
-	
 	//Нажатие кнопки очистки
 	$('#clear_button').click(function() {
 		$('#input_track').val('');
@@ -234,9 +235,6 @@ $(function() {
 		jqxhr.abort();
 		clear_page();
 	});
-	
-	
-	
 	
 	
 	//Обработка хеша в строке при загрузке
@@ -268,15 +266,6 @@ $(function() {
 
 
 
-
-
-
-
-
-
-
-
-
 /*================================ Работа с localstorage для хранения последних трек номеров ================================*/
 
 //Проверяет, поддерживается ли локальное хранилище
@@ -295,38 +284,41 @@ function readHistory() {
 
 //Добавить трек номер в LocalStorage
 function addHistoryElement(e) {
-	var massiv = readHistory();
+	var tracknums = readHistory();
 	//Если данного номера ещё нет в массиве, добавляем новый элемент в начало масива
-	if(massiv.indexOf(e) == -1) massiv.unshift(e); //Добавляем новый элемент в начало масива
+	if(tracknums.indexOf(e) == -1) tracknums.unshift(e); //Добавляем новый элемент в начало масива
 	//Если элементов в массиве больше, чем n, удаляем последний элемент
-	if(massiv.length > 15) massiv.pop();
+	if(tracknums.length > 16) tracknums.pop();
 	//Запись массива в LocalStorage
-	localStorage.ArrayHistory = JSON.stringify(massiv);
+	localStorage.ArrayHistory = JSON.stringify(tracknums);
+	$('#mem_count').html(tracknums.length); //Обновление счетчика сохраненных треков
 }
 
 //Удалить трек номер из LocalStorage
 function removeHistoryElement(e) {
-	var massiv = readHistory();
-	var index = massiv.indexOf(e); //Поиск индекса по значению
-	massiv.splice(index, 1); //удаляем значение из массива
-	localStorage.ArrayHistory = JSON.stringify(massiv); //Запись массива в localstorage
+	var tracknums = readHistory();
+	var index = tracknums.indexOf(e); //Поиск индекса по значению
+	tracknums.splice(index, 1); //удаляем значение из массива
+	localStorage.ArrayHistory = JSON.stringify(tracknums); //Запись массива в localstorage
+	$('#mem_count').html(tracknums.length); //Обновление счетчика сохраненных треков
 }
 
 //Показать блок с историей
 function showhistory() {
-	if(isLocalStorageAvailable() && readHistory().length>0) {
-		var width = $('#input_track').outerWidth();
-		var height = $('#input_track').outerHeight();
-		var position = $('#input_track').position();
-
+	if(isLocalStorageAvailable()) {
+		var width = $('#input_wrapper').outerWidth();
+		var height = $('#input_wrapper').outerHeight();
+		var position = $('#input_wrapper').position();
 		$('#searchHistory > ul').empty();
-		
-		readHistory().forEach(function(element) {
-			$('#searchHistory > ul').append('<li class="num-'+element+'">'+element+'</li>');
-		});
-
+		if(readHistory().length>0) {
+			readHistory().forEach(function(element) {
+				$('#searchHistory > ul').append('<li class="num-'+element+'">'+element+'</li>');
+			});
+		} else {
+			$('#searchHistory > ul').append('<div class="nothing">Нет сохраненных номеров.</div>');
+		}
 		$('#searchHistory').width(width).show();
-		$('#searchHistory').offset({top:position.top+height, left:position.left})
+		$('#searchHistory').offset({top:position.top+height, left:position.left});
 	}
 }
 
@@ -352,6 +344,11 @@ $(function() {
 			$('#searchHistory').hide();
 			selected = 0;
 		}
+	});
+	
+	//Скрытие окна истории при клике по сообщению об отсутствии сохнаненных трек номеров
+	$('#searchHistory').on('click', '.nothing', function() {
+		$('#searchHistory').hide();
 	});
 	
 	//Удаление элемента истории по нажатию "Delete"
@@ -383,17 +380,19 @@ $(function() {
 				showhistory();
 				selected = 0;
 			} else {
-				$('#searchHistory li').removeClass('dropselected');
-				$('#searchHistory li:eq('+(selected++)+')').addClass('dropselected');
-				if (selected >= readHistory().length) selected = 0;
-				HistoryChoise();
+				if(readHistory().length>0) {
+					$('#searchHistory li').removeClass('dropselected');
+					$('#searchHistory li:eq('+(selected++)+')').addClass('dropselected');
+					if (selected >= readHistory().length) selected = 0;
+					HistoryChoise();
+				}
 			}
 			
 			
 		} else if(e.keyCode == 38) {
 			//нажата клавиша "стрелка вверх"
 			
-			if( $('#searchHistory').is(':visible') ) {
+			if( readHistory().length>0 && $('#searchHistory').is(':visible') ) {
 				if(!$('#searchHistory li.dropselected').length) selected = 1; //Чтобы выбор стрелками работал корректно
 
 				$('#searchHistory li').removeClass('dropselected');
@@ -402,7 +401,7 @@ $(function() {
 				$('#searchHistory li:eq('+(--selected-1)+')').addClass('dropselected');
 				
 				HistoryChoise();
-			} 
+			}
 
 		} else {
 			$('#searchHistory').hide();
@@ -435,12 +434,14 @@ $(function() {
 	
 	//Клик на кнопке "очистить историю"
 	$('#searchHistory > span').click(function() {
+		$('#searchHistory').hide();
 		if (confirm('Очистить историю?')) {
 			$('#searchHistory').hide();
 			localStorage.clear(); //Очистка локального хранилища
+			$('#mem_count').html(0); //Обновление счетчика сохраненных треков
+			$('#input_track').val('');
+			window.location.hash = '';
 		}
-		$('#searchHistory').hide();
-		
 	});
 
 
