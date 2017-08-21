@@ -37,7 +37,7 @@ function GetData($url, $data, $headers) {
 	if($answer['http_code'] != 200) {
 		exit('{"LocalError":"Unexpected http code '.$answer['http_code'].'"}');
 	}
-
+	
 	return $answer['result'];
 }
 
@@ -86,9 +86,7 @@ if (isset($_POST['zipcode']) && !empty($_POST['zipcode'])) {
 	exit( GetData($url, $data, $headers) );
 	
 } else {
-	exit('{"LocalError":"Not Allowed"}');
+	exit('{"LocalError":"Unknown Request"}');
 }
 
-
 ?>
-
