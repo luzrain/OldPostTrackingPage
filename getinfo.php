@@ -43,11 +43,11 @@ function GetData($url, $data, $headers) {
 
 
 //Вывод информации о почтовом отделении (getinfo.php?zipcode=101000)
-if (isset($_GET['zipcode']) && !empty($_GET['zipcode'])) {
+if (isset($_POST['zipcode']) && !empty($_POST['zipcode'])) {
 	
 	$url = 'https://www.pochta.ru/portal-portlet/delegate/postoffice-api/method/offices.find.byCode';
 	$data = array(
-		'postalCode' => (int)$_GET['zipcode'],
+		'postalCode' => (int)$_POST['zipcode'],
 	);
 	$headers = array(
 		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
@@ -60,7 +60,7 @@ if (isset($_GET['zipcode']) && !empty($_GET['zipcode'])) {
 	exit( GetData($url, $data, $headers) );
 	
 //Вывод информации о почтовом отправлении (getinfo.php?barcode=12345678901234)
-} else if (isset($_GET['barcode']) && !empty($_GET['barcode'])) {
+} else if (isset($_POST['barcode']) && !empty($_POST['barcode'])) {
 	
 	$url = 'https://www.pochta.ru/tracking';
 	$data = array(
@@ -73,7 +73,7 @@ if (isset($_GET['zipcode']) && !empty($_GET['zipcode'])) {
 		'p_p_col_id' => 'column-1',
 		'p_p_col_pos' => '1',
 		'p_p_col_count' => '2',
-		'barcodeList' => $_GET['barcode'],
+		'barcodeList' => $_POST['barcode'],
 	);
 	$headers = array(
 		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',

@@ -44,13 +44,13 @@ function show_TrackDetail(jsondata) {
 	//Чтение json структуры
 	TrackData = jsondata.list[0].trackingItem;
 	
-	//Загголовок, информация о посылке
+	//Заголовок, информация о посылке
 	$('#trackinfo #tracktitle').removeClass('arrived').html(TrackData.title);
 	
 	//Детальная информация (под заголовком)
 	$('#trackinfo #trackstatus').html(TrackData.commonStatus);
 	
-	//Выыод информации об отправлении
+	//Вывод информации об отправлении
 	$('#trackdetail').html('<table>' +
 		'<tr><td>Трек номер: </td><td>'+TrackData.barcode+'</td></tr>' +
 		'<tr><td>Индекс получателя: </td><td><span class="index_detail index-'+TrackData.indexTo+'">'+TrackData.indexTo+'</span></td></tr>' +
@@ -101,14 +101,14 @@ function search() {
 	ShowMessage('<div>Поиск...</div><div class="loaderimage"></div>', '');
 
 	if (!isValidTrackingNumber(track)) {
-		ShowMessage('Результат поиска', 'Неправильный трек-номер');
+		ShowMessage('Результат поиска', 'Неправильный трек-номер.');
 		$("#input_track").addClass('inputerror');
 		return false;
     }
 
     addHistoryElement(track); //Добавляем трек в историю
-
-	jqxhr = $.getJSON('getinfo.php?barcode='+track);
+	
+	var jqxhr = $.post('getinfo.php', {barcode: track});
 	
 	jqxhr.done(function(result) {
 
@@ -141,7 +141,7 @@ function search() {
 //Поиск информации о почтовом отделении пои ндексу
 function SearchPostAdress(index) {
 	
-	jqxhr = $.getJSON('getinfo.php?zipcode='+index);
+	var jqxhr = $.post('getinfo.php', {zipcode: index});
 	
 	jqxhr.done(function(result) {
 		if (result.LocalError) { //Локальная ошибка в .php
