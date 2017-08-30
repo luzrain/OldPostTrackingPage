@@ -108,7 +108,7 @@ function search() {
 
     addHistoryElement(track); //Добавляем трек в историю
 	
-	var jqxhr = $.post('getinfo.php', {barcode: track});
+	jqxhr = $.post('getinfo.php', {barcode: track});
 	
 	jqxhr.done(function(result) {
 
@@ -141,7 +141,7 @@ function search() {
 //Поиск информации о почтовом отделении пои ндексу
 function SearchPostAdress(index) {
 	
-	var jqxhr = $.post('getinfo.php', {zipcode: index});
+	jqxhr = $.post('getinfo.php', {zipcode: index});
 	
 	jqxhr.done(function(result) {
 		if (result.LocalError) { //Локальная ошибка в .php
