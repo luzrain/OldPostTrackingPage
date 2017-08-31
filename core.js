@@ -10,9 +10,9 @@ var jqxhr;
 
 //Нормализация даты
 function FormatDate(datestring) {
-	date = datestring.toString().split("T")[0].split('-');
-	date = date[2]+'.'+date[1]+'.'+date[0];
-	time = datestring.toString().split("T")[1].substr(0,5);
+	var date = datestring.toString().split("T")[0].split('-');
+	var date = date[2]+'.'+date[1]+'.'+date[0];
+	var time = datestring.toString().split("T")[1].substr(0,5);
 	return (date + ' ' + time);
 }
 
@@ -42,7 +42,7 @@ function show_TrackDetail(jsondata) {
 	$('#result_print').show();
 	
 	//Чтение json структуры
-	TrackData = jsondata.list[0].trackingItem;
+	var TrackData = jsondata.list[0].trackingItem;
 	
 	//Заголовок, информация о посылке
 	$('#trackinfo #tracktitle').removeClass('arrived').html(TrackData.title);
@@ -53,7 +53,7 @@ function show_TrackDetail(jsondata) {
 	//Вывод информации об отправлении
 	$('#trackdetail').html('<table>' +
 		'<tr><td>Трек номер: </td><td>'+TrackData.barcode+'</td></tr>' +
-		'<tr><td>Индекс получателя: </td><td><span class="index_detail index-'+TrackData.indexTo+'">'+TrackData.indexTo+'</span></td></tr>' +
+		'<tr><td>Индекс получателя: </td><td>'+((TrackData.indexTo) ? '<span class="index_detail index-'+TrackData.indexTo+'">'+TrackData.indexTo+'</span>' : 'Нет данных')+'</td></tr>' +
 		'<tr><td>Отправитель: </td><td>'+(TrackData.sender || 'Нет данных')+'</td></tr>' +
 		'<tr><td>Получатель: </td><td>'+(TrackData.recipient || 'Нет данных')+'</td></tr>' +
 		'<tr><td>Вес: </td><td>'+TrackData.weight/1000 + ' кг.</td></tr>' +
@@ -67,9 +67,9 @@ function show_TrackDetail(jsondata) {
 	
 	
 	//Вывод истории отправления
-	Operations = TrackData.trackingHistoryItemList;
-	Operations_length = Operations.length-1;
-	num = 1;
+	var Operations = TrackData.trackingHistoryItemList;
+	var Operations_length = Operations.length-1;
+	var num = 1;
 	for (var i = Operations_length; i >= 0; i--) {
 		var CurrentOperation = Operations[i];
 		$('#trackresult_rows').append('<tr>' +
