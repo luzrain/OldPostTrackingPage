@@ -244,6 +244,7 @@ table * {
 
 #trackresult td {
 	padding: 4px;
+	white-space: nowrap;
 }
 
 
