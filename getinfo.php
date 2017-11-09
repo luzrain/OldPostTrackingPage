@@ -16,7 +16,7 @@ function GetData($url, $data, $headers) {
 	    CURLOPT_SSL_VERIFYPEER	=>	false,
 		CURLOPT_SSL_VERIFYHOST	=>	false,
 		CURLOPT_HEADER			=>	false,
-		CURLOPT_CONNECTTIMEOUT	=>	4,
+		CURLOPT_CONNECTTIMEOUT	=>	5,
 		CURLOPT_HTTPHEADER		=>	$headers,
 		CURLOPT_URL				=>	$url.'?'.http_build_query($data),
 		//CURLOPT_PROXY			=>	'127.0.0.1:8888',
@@ -35,7 +35,7 @@ function GetData($url, $data, $headers) {
 	
 	//Если код ответа не 200
 	if($answer['http_code'] != 200) {
-		exit('{"LocalError":"Unexpected http code '.$answer['http_code'].'"}');
+		exit('{"LocalError":"Error '.$answer['http_code'].'"}');
 	}
 	
 	return $answer['result'];
@@ -52,7 +52,7 @@ if (isset($_POST['zipcode']) && !empty($_POST['zipcode'])) {
 	$headers = array(
 		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
 		'Accept: application/json',
-		'X-Requested-With: XMLHttpReques',
+		'X-Requested-With: XMLHttpRequest',
 		'Referer: https://www.pochta.ru/offices',
 		'Cookie: PORTAL_LANGUAGE=ru_RU',
 		'Connection: close',
@@ -78,7 +78,7 @@ if (isset($_POST['zipcode']) && !empty($_POST['zipcode'])) {
 	$headers = array(
 		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
 		'Accept: application/json',
-		'X-Requested-With: XMLHttpReques',
+		'X-Requested-With: XMLHttpRequest',
 		'Referer: https://www.pochta.ru/tracking',
 		'Cookie: PORTAL_LANGUAGE=ru_RU',
 		'Connection: close',

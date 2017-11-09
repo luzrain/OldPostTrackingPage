@@ -4,6 +4,11 @@
 //Проверка трек номера на валидность
 function isValidTrackingNumber(e){var t=/^[0-9]{14}$/.test(e),n=/^SL[0-9]{9}RU$/.test(e),i=/^[R|V|C|E|L|U|Z][A-Z][0-9]{9}[A-Z]{2}$/.test(e)||n,r=0;if(t){for(var a=0;a<e.length;a+=2)r+=3*parseInt(e[a],10),a<12&&(r+=parseInt(e[a+1],10));var o=r%10,s=o?10-r%10:0;return parseInt(e[13],10)===s}if(i){for(var p=[8,6,4,2,3,5,9,7],a=2;a<10;a++)r+=parseInt(e[a],10)*p[a-2];var s=11-r%11;return 10===s?s=0:11===s&&(s=5),parseInt(e[10],10)===s}return!1}
 
+//Determine whether a variable is empty
+function empty(v) {
+	return (v == null || v == 0 || v == '');
+}
+
 
 var jqxhr;
 
@@ -53,14 +58,15 @@ function show_TrackDetail(jsondata) {
 	//Вывод информации об отправлении
 	$('#trackdetail').html('<table>' +
 		'<tr><td>Трек номер: </td><td>'+TrackData.barcode+'</td></tr>' +
-		'<tr><td>Индекс получателя: </td><td>'+((TrackData.indexTo) ? '<span class="index_detail index-'+TrackData.indexTo+'">'+TrackData.indexTo+'</span>' : 'Нет данных')+'</td></tr>' +
-		'<tr><td>Отправитель: </td><td>'+(TrackData.sender || 'Нет данных')+'</td></tr>' +
-		'<tr><td>Получатель: </td><td>'+(TrackData.recipient || 'Нет данных')+'</td></tr>' +
+		'<tr><td>Индекс получателя: </td><td>'+(!empty(TrackData.indexTo) ? '<span class="index">'+TrackData.indexTo+'</span>' : 'Нет данных')+'</td></tr>' +
+		//'<tr><td>Отправитель: </td><td>'+(TrackData.sender || 'Нет данных')+'</td></tr>' +
+		'<tr><td>Отправитель: </td><td>'+(!empty(TrackData.sender) ? TrackData.sender : 'Нет данных')+'</td></tr>' +
+		'<tr><td>Получатель: </td><td>'+(!empty(TrackData.recipient) ? TrackData.recipient : 'Нет данных')+'</td></tr>' +
 		'<tr><td>Вес: </td><td>'+TrackData.weight/1000 + ' кг.</td></tr>' +
 		'<tr style="display:none;"><td>Объявленная ценность: </td><td>'+TrackData.insurance+' р.</td></tr>' +
 		'<tr style="display:none;"><td>Наложенный платеж: </td><td>'+TrackData.cashOnDelivery + ' р.</td></tr>' +
 	'</table>');
-	
+		
 	if (TrackData.insurance != null)		$('#trackdetail tr:eq(5)').show();
 	if (TrackData.cashOnDelivery != null)	$('#trackdetail tr:eq(6)').show();
 	if (TrackData.hasBeenGiven != null)		$('#trackinfo #tracktitle').addClass('arrived');
@@ -76,12 +82,21 @@ function show_TrackDetail(jsondata) {
 			'<td>' + (num++) + '</td>' +
 			'<td style="text-align: left;">' + (CurrentOperation.humanStatus || '') + '</td>' +
 			'<td>' + (FormatDate(CurrentOperation.date) || '') + '</td>' +
-			'<td>' + ('<span class="index_detail index-'+CurrentOperation.index+'">' + (CurrentOperation.index || '') + '</span>' || '') + '</td>' +
+			'<td>' + ('<span class="index">' + (CurrentOperation.index || '') + '</span>' || '') + '</td>' +
 			'<td style="text-align: right;">' + (CurrentOperation.cityName || '') + '</td>' +
 			'<td style="text-align: left;">' + (CurrentOperation.description || '') + '</td>' +
 			'<td>' + (CurrentOperation.weight/1000 || '') + '</td>' +
 		'</tr>');
 	}
+	
+	$('.index').each(function(i,elem) {
+		var index_num = $(elem).text() * 1;
+		if(!isNaN(index_num)) {
+			$(elem).addClass('index-'+index_num);
+			$(elem).addClass('index_detail');
+		}
+		
+	});
 
 
 }
@@ -128,7 +143,10 @@ function search() {
 		}
 
 		show_TrackDetail(result);
-
+		
+		//Выравнивание ширины блоков
+		$('#trackinfo').width( $('#trackresult').width() );
+		
 	});
 	
 	jqxhr.fail(function() {
@@ -253,6 +271,15 @@ $(function() {
 			search();
 		}
 	});
+	
+	
+	
+	
+	//Выравнивание ширины блоков
+	$(window).resize(function() {
+		$('#trackinfo').width( $('#trackresult').width() );
+	});
+	
 
 
 });
@@ -443,6 +470,10 @@ $(function() {
 			window.location.hash = '';
 		}
 	});
+	
+	
+	
+
 
 
 

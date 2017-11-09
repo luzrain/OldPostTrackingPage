@@ -44,6 +44,7 @@ a:hover { color: #003399; }
 
 #result_print {
 	/*margin-bottom:60px;*/
+	/*width: 100%;*/
 }
 
 #footer {
@@ -115,13 +116,14 @@ table * {
 	margin-bottom:80px;
 }
 
-#tracksearch th, #trackresult th {
+tr.t_title td {
 	background: #003399;
 	color: #fff;
 	font-weight: bold;
+	padding: 2px 4px !important;
 }
 
-#tracksearch th, #tracksearch td, #trackresult th, #trackresult td{
+#tracksearch td, #trackresult td{
 	padding:2px 4px;
 	vertical-align: top;
 	text-align: center;
@@ -131,10 +133,6 @@ table * {
 	background: #f2f2f2;
 }
 
-
-#tracksearch th {
-	text-align: left !important;
-}
 
 #tracksearch td {
 	text-align: justify;
@@ -175,12 +173,6 @@ table * {
 	position:relative;
 }
 
-#trackinfo {
-	width: 950px;
-	text-align: left;
-	/*display:none;*/
-}
-
 
 #trackdetail td:first-of-type {
 	text-align: right;
@@ -190,10 +182,19 @@ table * {
 #trackdetail td:last-of-type{
 	text-align: left;
 	font-weight: bold;
+	
+}
+
+#trackdetail td{
+	vertical-align:top;
 }
 
 
 
+#trackinfo {
+	text-align:left;
+	
+}
 
 #tracktitle {
 	color: #3d7b70;
@@ -207,7 +208,6 @@ table * {
 	font-size: 14px;
 	font-weight: bold;
 	margin-top: -2px;
-
 }
 
 
@@ -216,10 +216,10 @@ table * {
 
 
 #trackresult {
-	width: 960px;
+	min-width: 960px;
 }
 
-#trackresult th {
+#trackresult tr.t_title td {
 	text-align: center;
 	vertical-align: middle;
 }
@@ -237,14 +237,8 @@ table * {
 	height: 0;
 }
 
-#trackresult_rows th {
-	padding: 40px;
-}
-
-
 #trackresult td {
-	padding: 4px;
-	white-space: nowrap;
+	padding: 4px 6px;
 }
 
 
@@ -351,9 +345,5 @@ table * {
 	background: #039;
 
 }
-
-
-
-
 
 
