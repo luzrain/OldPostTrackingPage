@@ -91,11 +91,10 @@ function show_TrackDetail(jsondata) {
 	
 	$('.index').each(function(i,elem) {
 		var index_num = $(elem).text() * 1;
-		if(!isNaN(index_num)) {
+		if(!isNaN(index_num) && String(index_num).length == 6) {
 			$(elem).addClass('index-'+index_num);
 			$(elem).addClass('index_detail');
 		}
-		
 	});
 
 
