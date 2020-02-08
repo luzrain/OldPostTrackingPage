@@ -1,84 +1,89 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta property="og:title" content="Отслеживание регистрируемых почтовых отправлений">
-	<meta property="og:image" content="/Russian_Post.jpg">
-	<meta property="og:description" content="Поиск почтовых отправлений по идентификатору">
 	<title>Отслеживание регистрируемых почтовых отправлений</title>
-	<link href="/css/style.css" rel="stylesheet" type="text/css">
-	<link rel="icon" type="image/png" href="/icon.png">
-	<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="/js/core.js"></script>
-</head> 
+	<meta charset="utf-8">
+	<link rel="icon" type="image/png" href="/img/icon.png">
+	<link rel="stylesheet" type="text/css" href="/css/style.css?v=2">
+	<script type="text/javascript" src="/js/core.js?v=2"></script>
+	<meta property="og:title" content="Отслеживание регистрируемых почтовых отправлений">
+	<meta property="og:image" content="/img/Russian_Post.jpg">
+	<meta property="og:description" content="Поиск почтовых отправлений по идентификатору">
+</head>
 <body>
-<!-- http://info.russianpost.ru/servlet/post_item -->
-
-<center>
-	<h1 class="greentitle"><a href="/">Отслеживание регистрируемых почтовых отправлений</a></h1>
-	<table cellpadding="0" cellspacing="2" id="tracksearch">
-		<tr class="t_title">
-			<td colspan="2">Поиск по почтовому идентификатору</td>
-		</tr>
-		<tr>
-			<td><div id="input_wrapper"><input type="text" maxlength="14" id="input_track"><div id="mem_count">0</div></div></td>
-			<td>Введите почтовый идентификатор отправления, 14-символьный для внутрироссийских РПО или 13-символьный для международных РПО.</td>
-		</tr>
-		<tr>
-			<td colspan="2"><button id="search_button">Поиск</button> <button id="clear_button">Очистить</button></td>
-		</tr>
-	</table>
-	
-	<div id="ErrorMessageBox">
-		<div class="err_title greentitle"></div><div class="err_txt errortext"></div>
-	</div>
-	<noscript>
-		<div class="greentitle">Ошибка</div><div class="errortext">Включите JavaScript для работы сайта.</div>
-	</noscript>
+	<!-- http://info.russianpost.ru/servlet/post_item -->
+	<content>
+		<h1 class="greentitle"><a href="/">Отслеживание регистрируемых почтовых отправлений</a></h1>
 		
-	<div id="result_print" style="display:none;">
-		<!-- Информация о посылке -->
-		<div id="trackinfo">
-			<div style="float:left;">
-				<span id="tracktitle"></span>
-				<div id="trackstatus"></div>
-			</div>
-			<div style="float:right;">
-				<div id="trackdetail"></div>	
-			</div>
-		</div>
-		<div style="margin-bottom:8px; clear:both;"></div>
-		<!-- Таблица с историей операций -->
-		<table cellpadding="0" cellspacing="2" id="trackresult">
-			<thead>
-				<tr class="t_title">
-					<td rowspan="2">№</td>
-					<td rowspan="2">Операция</td>
-					<td rowspan="2">Дата</td>
-					<td colspan="3">Место проведения операции</td>
-					<td rowspan="2">Вес (кг.)</td>
-				</tr>
-				<tr class="t_title">
-					<td>Индекс</td>
-					<td>Город</td>
-					<td>Название ОПС</td>
-				</tr>
-			</thead>
-			<tbody id="trackresult_rows"></tbody>
-			<tr class="thunderline">
-				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+		<table class="table table_search" cellpadding="0" cellspacing="2">
+			<tr>
+				<th colspan="2">Поиск по почтовому идентификатору</th>
+			</tr>
+			<tr>
+				<td><div id="input_wrapper"><input type="text" maxlength="14" id="barcode-number"><div id="mem-counter">0</div></div></td>
+				<td>Введите почтовый идентификатор отправления, 14-символьный для внутрироссийских РПО или 13-символьный для международных РПО.</td>
+			</tr>
+			<tr>
+				<td colspan="2"><button id="button-search">Поиск</button> <button id="button-clear">Очистить</button></td>
 			</tr>
 		</table>
-	</div>
-	<div style="margin-top:60px;"></div>
-	<div id="footer">
-		<div>
-			Информация об отправлениях получена с сайта почты России <a rel="noreferrer" target="_blank" href="https://www.pochta.ru/tracking">https://www.pochta.ru/tracking</a><br>
-			<a target="_blank" href="https://github.com/LuzRain/OldPostTrackingPage">GitHub</a> |
-			<a href="https://russianpost.ml">https://russianpost.ml</a>
+		
+		<div id="error_box">
+			<div class="greentitle" id="error_box-title"></div><div class="error-text" id="error_box-text"></div>
 		</div>
-	</div>
-</center>
-
+		
+		<noscript>
+			<div id="error_box">
+				<div class="greentitle">Ошибка</div><div class="error-text">Включите JavaScript для работы сайта.</div>
+			</div>
+		</noscript>
+			
+		<div id="table_box">
+			<!-- Информация о посылке -->
+			<div class="table_box-head">
+				<div>
+					<span id="track-title"></span>
+					<div id="track-status"></div>
+				</div>
+				<table class="table_details" cellpadding="1" cellspacing="0">
+					<tr><td>Трек номер:</td><td id="details-barcode">111</td></tr>
+					<tr><td>Индекс получателя:</td><td id="details-indexto">222</td></tr>
+					<tr><td>Отправитель:</td><td id="details-sender"></td></tr>
+					<tr><td>Получатель:</td><td id="details-recipient"></td></tr>
+					<tr><td>Вес:</td><td id="details-weight"></td></tr>
+					<tr><td>Объявленная ценность:</td><td id="details-insurance"></td></tr>
+					<tr><td>Наложенный платеж:</td><td id="details-cashondelivery"></td></tr>
+				</table>
+			</div>
+			
+			<!-- Таблица с историей операций -->
+			<table class="table table_result" cellpadding="0" cellspacing="2">
+				<thead>
+					<tr>
+						<th rowspan="2">№</th>
+						<th rowspan="2">Операция</th>
+						<th rowspan="2">Дата</th>
+						<th colspan="3">Место проведения операции</th>
+						<th rowspan="2">Вес (кг.)</th>
+					</tr>
+					<tr>
+						<th>Индекс</th>
+						<th>Город</th>
+						<th>Название ОПС</th>
+					</tr>
+				</thead>
+				<tbody id="table_result-rows"></tbody>
+				<tr class="table_result-thunderline">
+					<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+				</tr>
+			</table>
+		</div>
+	</content>
+	
+	<footer>
+		Информация об отправлениях получена с сайта почты России <a rel="noreferrer" target="_blank" href="https://www.pochta.ru/tracking">https://www.pochta.ru/tracking</a><br>
+		<a target="_blank" href="https://github.com/LuzRain/OldPostTrackingPage">GitHub</a> |
+		<a href="https://russianpost.ml">https://russianpost.ml</a>
+	</footer>
 </body>
 </html>

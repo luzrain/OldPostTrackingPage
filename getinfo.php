@@ -3,67 +3,55 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-cache');
 
-//Если запрос пришел не с текущего имени сервера, выход.
-if( @parse_url($_SERVER['HTTP_REFERER'])['host'] != $_SERVER['SERVER_NAME'] ) {
-	exit('{"LocalError":"Not Allowed"}');
-}
+$input = json_decode(file_get_contents('php://input'));
 
 //Функция для http get запроса
-function GetData($url, $data, $headers) {
+function getData($url, $data, $headers) {
 	$curl = curl_init();
-	curl_setopt_array($curl, array(
-	    CURLOPT_RETURNTRANSFER	=>	true,
-	    CURLOPT_SSL_VERIFYPEER	=>	false,
-		CURLOPT_SSL_VERIFYHOST	=>	false,
+	curl_setopt_array($curl, [
+		CURLOPT_RETURNTRANSFER	=>	true,
 		CURLOPT_HEADER			=>	false,
 		CURLOPT_CONNECTTIMEOUT	=>	5,
 		CURLOPT_HTTPHEADER		=>	$headers,
-		CURLOPT_URL				=>	$url.'?'.http_build_query($data),
-		//CURLOPT_PROXY			=>	'127.0.0.1:8888',
-	));
-	$answer = array(
-		'result'	=>	curl_exec($curl),
-		'error'		=>	curl_error($curl),
-		'http_code'	=>	curl_getinfo($curl, CURLINFO_HTTP_CODE),
-	);
+		CURLOPT_URL				=>	$url . '?' . http_build_query($data),
+	]);
+	$result = curl_exec($curl);
+	$error = curl_error($curl);
+	$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 	curl_close($curl);
 	
-	//Если curl вернул ошибку
-	if($answer['result'] === false) {
-		exit('{"LocalError":"'.addslashes($answer['error']).'"}');
+	if($code != 200) {
+		http_response_code(500);
+		exit;
 	}
 	
-	//Если код ответа не 200
-	if($answer['http_code'] != 200) {
-		exit('{"LocalError":"Error '.$answer['http_code'].'"}');
-	}
-	
-	return $answer['result'];
+	return $result;
 }
 
-
-//Вывод информации о почтовом отделении (getinfo.php?zipcode=101000)
-if (isset($_POST['zipcode']) && !empty($_POST['zipcode'])) {
+//Вывод информации о почтовом отделении
+if (!empty($input->zipcode)) {
 	
 	$url = 'https://www.pochta.ru/portal-portlet/delegate/postoffice-api/method/offices.find.byCode';
-	$data = array(
-		'postalCode' => (int)$_POST['zipcode'],
-	);
-	$headers = array(
-		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
+	$data = [
+		'postalCode' => $input->zipcode,
+	];
+	$headers = [
+		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0',
 		'Accept: application/json',
 		'X-Requested-With: XMLHttpRequest',
 		'Referer: https://www.pochta.ru/offices',
 		'Cookie: PORTAL_LANGUAGE=ru_RU',
 		'Connection: close',
-	);
-	exit( GetData($url, $data, $headers) );
+	];
 	
-//Вывод информации о почтовом отправлении (getinfo.php?barcode=12345678901234)
-} else if (isset($_POST['barcode']) && !empty($_POST['barcode'])) {
+	echo getData($url, $data, $headers);
+	exit;
+	
+//Вывод информации о почтовом отправлении
+} elseif (!empty($input->barcode)) {
 	
 	$url = 'https://www.pochta.ru/tracking';
-	$data = array(
+	$data = [
 		'p_p_id' => 'trackingPortlet_WAR_portalportlet',
 		'p_p_lifecycle' => '2',
 		'p_p_state' => 'normal',
@@ -73,20 +61,21 @@ if (isset($_POST['zipcode']) && !empty($_POST['zipcode'])) {
 		'p_p_col_id' => 'column-1',
 		'p_p_col_pos' => '1',
 		'p_p_col_count' => '2',
-		'barcodeList' => $_POST['barcode'],
-	);
-	$headers = array(
-		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',
+		'barcodeList' => $input->barcode,
+	];
+	$headers = [
+		'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0',
 		'Accept: application/json',
 		'X-Requested-With: XMLHttpRequest',
 		'Referer: https://www.pochta.ru/tracking',
 		'Cookie: PORTAL_LANGUAGE=ru_RU',
 		'Connection: close',
-	);
-	exit( GetData($url, $data, $headers) );
+	];
 	
-} else {
-	exit('{"LocalError":"Unknown Request"}');
+	echo getData($url, $data, $headers);
+	exit;
 }
 
-?>
+http_response_code(400);
+echo '[]';
+exit;
