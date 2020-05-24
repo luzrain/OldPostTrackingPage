@@ -185,24 +185,6 @@ content {
 	font-weight: bold;
 }
 
-.index_detail {
-	cursor: help;
-	border-bottom: 1px dashed #000080;
-}
-
-#zipcode-float {
-	z-index: 100;
-	display: none;
-	position: absolute;
-	text-align: left;
-	padding: 4px;
-	background-color: #ffffe1;
-	font-size: 12px;
-	white-space: nowrap;
-	border: 1px solid #003399;
-	box-shadow: 0 0 10px rgba(0,51,153,0.6);
-}
-
 /*================================ History ================================*/
 
 #search-history {
